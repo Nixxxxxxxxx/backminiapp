@@ -30,7 +30,7 @@ app.post("/check-subscription", async (req, res) => {
   }
 
   try {
-    const url = 'https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatMember?chat_id=${CHANNEL_USERNAME}&user_id=${user_id}';
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatMember?chat_id=${CHANNEL_USERNAME}&user_id=${user_id}`;
     const response = await axios.get(url);
 
     const status = response?.data?.result?.status;
@@ -45,5 +45,5 @@ app.post("/check-subscription", async (req, res) => {
 });
 
 app.listen(Port, () => {
-  console.log('✅ Server running on port ${Port}');
+  console.log(`✅ Server running on port ${Port}`);
 });
