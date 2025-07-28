@@ -6,14 +6,12 @@ require("dotenv").config();
 
 const app = express();
 
-// ✅ Используем правильный синтаксис для порта
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.local.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// ✅ Проверяем, что токен есть
-const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
+const TELEGRAM_BOT_TOKEN = process.env.local.BOT_TOKEN;
 const CHANNEL_USERNAME = "@nix_ux_view";
 
 if (!TELEGRAM_BOT_TOKEN) {
@@ -21,12 +19,10 @@ if (!TELEGRAM_BOT_TOKEN) {
   process.exit(1);
 }
 
-// Тестовый маршрут, чтобы Render не отдавал 404
 app.get("/", (req, res) => {
   res.send("✅ Server is running");
 });
 
-// Проверка подписки
 app.post("/check-subscription", async (req, res) => {
   const { user_id } = req.body;
 
