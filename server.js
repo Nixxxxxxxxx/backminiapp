@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -14,17 +13,26 @@ const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
 const CHANNEL_USERNAME = "@nix_ux_view";
 
 if (!TELEGRAM_BOT_TOKEN) {
-  console.error("BOT_TOKEN is not set in environment variables.");
-  process.exit(1);
+  console.error("❌ BOT_TOKEN is not set. Backend will run, but API won't work.");
 }
 
+// ✅ Health-check endpoint
 app.get("/", (req, res) => {
-  res.send("✅ Server is running on Render");
+  res.json({
+    status: "ok",
+    message: TELEGRAM_BOT_TOKEN
+      ? "Backend is running"
+      : "Backend is running, but BOT_TOKEN is missing",
+  });
 });
 
+// ✅ API endpoint
 app.post("/check-subscription", async (req, res) => {
-  const { user_id } = req.body;
+  if (!TELEGRAM_BOT_TOKEN) {
+    return res.status(500).json({ error: "BOT_TOKEN is missing" });
+  }
 
+  const { user_id } = req.body;
   if (!user_id) {
     return res.status(400).json({ error: "user_id is required" });
   }
@@ -39,11 +47,14 @@ app.post("/check-subscription", async (req, res) => {
     }
     res.json({ status: "not_subscribed" });
   } catch (error) {
-    console.error("Telegram API error:", error?.response?.data || error.message);
-    res.status(500).json({ error: "Telegram API error" });
+    console.error("❌ Telegram API error:", error?.response?.data || error.message);
+    res.status(500).json({
+      error: "Telegram API error",
+      details: error?.response?.data || error.message,
+    });
   }
 });
 
 app.listen(Port, () => {
-  console.log(`✅ Server running on port ${Port}`);
+  console.log(`✅ Backend running on port ${Port}`);
 });
