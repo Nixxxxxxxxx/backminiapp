@@ -12,12 +12,15 @@ app.use(express.json());
 const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
 const CHANNEL_USERNAME = "@nix_ux_view";
 
+console.log("Server up")
+
 if (!TELEGRAM_BOT_TOKEN) {
   console.error("❌ BOT_TOKEN is not set. Backend will run, but API won't work.");
 }
 
 // ✅ Health-check endpoint
 app.get("/", (req, res) => {
+  console.log("root route hit")
   res.json({
     status: "ok",
     message: TELEGRAM_BOT_TOKEN
