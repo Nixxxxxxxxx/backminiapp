@@ -44,6 +44,6 @@ app.post("/check-subscription", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(Port, () => {
   console.log('✅ Server running on port ${Port}');
 });
