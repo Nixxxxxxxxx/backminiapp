@@ -6,12 +6,12 @@ require("dotenv").config();
 
 const app = express();
 
-const PORT = process.env.local.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-const TELEGRAM_BOT_TOKEN = process.env.local.BOT_TOKEN;
+const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
 const CHANNEL_USERNAME = "@nix_ux_view";
 
 if (!TELEGRAM_BOT_TOKEN) {
